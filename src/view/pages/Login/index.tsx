@@ -1,38 +1,57 @@
-import { Link } from "react-router-dom";
-import { Input } from "../../components/Input";
-import { Button } from "../../components/Button";
+import {Link} from 'react-router-dom';
+import {Input} from '../../components/Input';
+import {Button} from '../../components/Button';
+import {useLoginController} from './useLoginController';
 
 export function Login() {
-  return (
-    <>
-      <header className="flex flex-col items-center gap-4 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 tracking-[-1px]">
+	const {
+		handleSubmit,
+		register,
+		errors,
+	} = useLoginController();
+
+	return (
+
+		<>
+			<header className='flex flex-col items-center gap-4 text-center'>
+				<h1 className='text-2xl font-bold text-gray-900 tracking-[-1px]'>
           Entre em sua conta
-        </h1>
+				</h1>
 
-        <p className="space-x-2">
-          <span className="text-gray-700 tracking-[-0.5px]">
+				<p className='space-x-2'>
+					<span className='text-gray-700 tracking-[-0.5px]'>
             Novo por aqui?
-          </span>
+					</span>
 
-          <Link to='/register' className="tracking-[-0.5px] font-medium text-teal-900">
+					<Link to='/register' className='tracking-[-0.5px] font-medium text-teal-900'>
             Crie uma conta
-          </Link>
-        </p>
+					</Link>
+				</p>
 
-      </header>
+			</header>
 
-      <form className="mt-[60px] flex flex-col gap-4">
-        <Input type="email" name="email" placeholder="E-mail" />
-        <Input type="password" name="password" placeholder="Senha" />
+			<form onSubmit={handleSubmit} className='mt-[60px] flex flex-col gap-4'>
+				<Input
+					type='email'
+					placeholder='E-mail'
+					autoComplete='username'
+					error={errors.email?.message}
+					{...register('email')}
+				/>
 
+				<Input
+					type='password'
+					placeholder='Senha'
+					autoComplete='current-password'
+					error={errors.password?.message}
+					{...register('password')}
+				/>
 
-
-        <Button type="submit" className="mt-2">
+				<Button type='submit' className='mt-2'>
           Entrar
-        </Button>
-      </form>
+				</Button>
+			</form >
 
-    </>
-  )
+		</>
+	);
 }
