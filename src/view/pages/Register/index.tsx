@@ -8,6 +8,7 @@ export function Register() {
 		handleSubmit,
 		register,
 		errors,
+		isLoading,
 	} = useRegisterController();
 
 	return (
@@ -52,7 +53,7 @@ export function Register() {
 					error={errors.password?.message}
 				/>
 
-				<Button type='submit' className='mt-2'>
+				<Button isLoading={isLoading} type='submit' className='mt-2'>
           Criar conta
 				</Button>
 			</form>

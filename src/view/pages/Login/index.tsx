@@ -8,6 +8,7 @@ export function Login() {
 		handleSubmit,
 		register,
 		errors,
+		isLoading,
 	} = useLoginController();
 
 	return (
@@ -47,7 +48,7 @@ export function Login() {
 					{...register('password')}
 				/>
 
-				<Button type='submit' className='mt-2'>
+				<Button isLoading={isLoading} type='submit' className='mt-2'>
           Entrar
 				</Button>
 			</form >
