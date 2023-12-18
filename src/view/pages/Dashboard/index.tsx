@@ -2,6 +2,7 @@ import {Logo} from '../../components/Logo';
 import {UserMenu} from '../../components/UserMenu';
 import {Accounts} from './components/Accounts';
 import {DashboardProvider} from './components/DashboardContext';
+import {Fab} from './components/Fab';
 import {Transactions} from './components/Transactions';
 
 export function Dashboard() {
@@ -15,7 +16,6 @@ export function Dashboard() {
 				</header>
 
 				<main className='flex-1 flex flex-col md:flex-row gap-4 max-h-full'>
-
 					<section className='w-full md:w-1/2'>
 						<Accounts />
 					</section>
@@ -24,6 +24,9 @@ export function Dashboard() {
 						<Transactions />
 					</section>
 				</main>
+
+				<Fab />
+
 			</div>
 
 		</DashboardProvider>
