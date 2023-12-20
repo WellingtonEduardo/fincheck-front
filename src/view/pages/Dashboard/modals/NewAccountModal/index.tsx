@@ -1,15 +1,16 @@
+import {Button} from '../../../../components/Button';
 import {ColorsDropdownInput} from '../../../../components/ColorsDropdownInput';
 import {Input} from '../../../../components/Input';
 import {InputCurrency} from '../../../../components/InputCurrency';
 import {Modal} from '../../../../components/Modal';
 import {Select} from '../../../../components/Select';
-import {useNewAccountModal} from './useNewAccountModal';
+import {useNewAccountModalController} from './useNewAccountModalController';
 
 export function NewAccountModal() {
 	const {
 		closeNewAccountModal,
 		isNewAccountModalOpen,
-	} = useNewAccountModal();
+	} = useNewAccountModalController();
 	return (
 		<Modal title='Nova Conta' open={isNewAccountModalOpen} onClose={closeNewAccountModal} >
 
@@ -47,9 +48,11 @@ export function NewAccountModal() {
 						]}
 					/>
 
-					<ColorsDropdownInput/>
-
+					<ColorsDropdownInput />
 				</div>
+				<Button type='submit' className='w-full mt-6'>
+          Criar
+				</Button>
 			</form>
 
 		</Modal>

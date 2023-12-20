@@ -1,6 +1,6 @@
 import {useDashboard} from '../../components/DashboardContext/useDashboard';
 
-export function useNewAccountModal() {
+export function useNewAccountModalController() {
 	const {
 		isNewAccountModalOpen,
 		closeNewAccountModal,
