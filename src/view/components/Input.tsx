@@ -7,6 +7,7 @@ import {cn} from '../../app/utils/cn';
 type InputProps = {
 	name: string;
 	error?: string;
+	placeholder: string;
 
 } & ComponentProps<'input'>;
 
