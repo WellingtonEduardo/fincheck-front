@@ -9,7 +9,10 @@ import toast from 'react-hot-toast';
 import {currencyStringToNumber} from '../../../../../app/utils/currencyStringToNumber';
 
 const schema = z.object({
-	initialBalance: z.string().min(1, 'Saldo inicial é obrigatório'),
+	initialBalance: z.union([
+		z.string().min(1, 'Saldo inicial é obrigatório'),
+		z.number().min(1, 'Saldo inicial é obrigatório'),
+	]),
 	name: z.string().min(1, 'Nome da conta é obrigatório'),
 	type: z.enum(['CHECKING', 'INVESTMENT', 'CASH']),
 	color: z.string().min(1, 'Cor é obrigatório'),
@@ -17,10 +20,11 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export function useNewAccountModalController() {
+export function useEditAccountModalController() {
 	const {
-		isNewAccountModalOpen,
-		closeNewAccountModal,
+		isEditAccountModalOpen,
+		closeEditAccountModal,
+		accountBeingEdited,
 	} = useDashboard();
 
 	const {
@@ -31,13 +35,22 @@ export function useNewAccountModalController() {
 		reset,
 	} = useForm<FormData>({
 		resolver: zodResolver(schema),
+		defaultValues: {
+			color: accountBeingEdited?.color,
+			initialBalance: accountBeingEdited?.initialBalance,
+			name: accountBeingEdited?.name,
+			type: accountBeingEdited?.type,
+		},
 	});
 
 	const queryClient = useQueryClient();
 
 	const {mutateAsync, isPending} = useMutation({
 		async mutationFn(data: CreateBankAccountParams) {
-			return bankAccountsService.create(data);
+			return bankAccountsService.update({
+				id: accountBeingEdited!.id,
+				...data,
+			});
 		},
 	});
 
@@ -51,22 +64,16 @@ export function useNewAccountModalController() {
 			// eslint-disable-next-line @typescript-eslint/no-floating-promises
 			queryClient.invalidateQueries({queryKey: ['bankAccounts']});
 
-			toast.success('Conta foi cadastrada com sucesso');
-			closeNewAccountModal();
-			reset({
-				color: '',
-				initialBalance: '0',
-				name: '',
-				type: 'CHECKING',
-			});
+			toast.success('A conta foi editada com sucesso!');
+			closeEditAccountModal();
 		} catch {
-			toast.error('Erro ao cadastrar a conta!');
+			toast.error('Erro ao salvar as alterações!');
 		}
 	});
 
 	return {
-		isNewAccountModalOpen,
-		closeNewAccountModal,
+		isEditAccountModalOpen,
+		closeEditAccountModal,
 		register,
 		errors,
 		handleSubmit,

@@ -1,16 +1,9 @@
 
+import {type BankAccount} from '../../entities/BankAccount';
 import {sleep} from '../../utils/sleep';
 import {httpClient} from './../httpClient';
 
-type BankAccountResponse = Array<{
-	id: string;
-	name: string;
-	initialBalance: number;
-	type: 'CHECKING' | 'INVESTMENT' | 'CASH';
-	color: string;
-	currentBalance: number;
-
-}>;
+type BankAccountResponse = BankAccount[];
 
 export async function getAll() {
 	await sleep();
