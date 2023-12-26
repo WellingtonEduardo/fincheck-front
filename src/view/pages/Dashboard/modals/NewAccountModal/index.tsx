@@ -33,7 +33,7 @@ export function NewAccountModal() {
 								<InputCurrency
 									error={errors.initialBalance?.message}
 									onChange={onChange}
-									value={value.replace(/\./g, '').replace(/,/, '.')}
+									value={value}
 								/>
 							)}
 						/>
