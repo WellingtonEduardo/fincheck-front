@@ -1,5 +1,3 @@
-import {ChevronDownIcon} from '@radix-ui/react-icons';
-import {TransactionsIcon} from '../../../../components/icons/TransactionsIcon';
 import {FilterIcon} from '../../../../components/icons/FilterIcon';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {MONTHS} from '../../../../../app/config/constants';
@@ -13,6 +11,7 @@ import {Spinner} from '../../../../components/Spinner';
 import emptyStateImage from '../../../../../assets/empty-state.svg';
 import {TransactionTypeDropdown} from './TransactionTypeDropdown';
 import {FiltersModal} from './FiltersModal';
+import {formatDate} from '../../../../../app/utils/formatDate';
 
 export function Transactions() {
 	const {
@@ -91,59 +90,41 @@ export function Transactions() {
 							</div>
 						)}
 
-						{(hasTransactions && !isLoading) && (
-							<>
-								<div className='bg-white p-4 rounded-2xl flex items-center justify-between gap-4'>
-									<div className='flex-1 flex items-center gap-3'>
-										<CategoryIcon type='expense' />
+						{(hasTransactions && !isLoading) && transactions.map(transaction => (
+							<div
+								key={transaction.id}
+								className='bg-white p-4 rounded-2xl flex items-center justify-between gap-4'
+							>
+								<div className='flex-1 flex items-center gap-3'>
+									<CategoryIcon
+										type={transaction.type === 'EXPENSE' ? 'expense' : 'income'}
+										category={transaction.category?.icon}
+									/>
 
-										<div>
-											<strong className='font-bold tracking-[-0.5px] block'>
-                        Compra
-											</strong>
-											<span className='text-sm text-gray-600'>
-                        04/06/2023
-											</span>
-										</div>
+									<div>
+										<strong className='font-bold tracking-[-0.5px] block'>
+											{transaction.name}
+										</strong>
+										<span className='text-sm text-gray-600'>
+											{formatDate(new Date(transaction.date))}
+										</span>
 									</div>
-
-									<span className={cn(
-										'text-red-800 tracking-[-0.5px] font-medium',
-										!areValuesVisible && 'blur-sm',
-									)}
-									>
-                    - {formatCurrency(2304)}
-									</span>
 								</div>
 
-								<div className='bg-white p-4 rounded-2xl flex items-center justify-between gap-4'>
-									<div className='flex-1 flex items-center gap-3'>
-										<CategoryIcon type='income' />
-
-										<div>
-											<strong className='font-bold tracking-[-0.5px] block'>
-                        Freelancer
-											</strong>
-											<span className='text-sm text-gray-600'>
-                        04/06/2023
-											</span>
-										</div>
-									</div>
-
-									<span className={cn(
-										'text-green-800 tracking-[-0.5px] font-medium',
-										!areValuesVisible && 'blur-sm',
-									)}
-									>
-                    +	{formatCurrency(304)}
-									</span>
-								</div>
-
-							</>
-						)}
+								<span className={cn(
+									'tracking-[-0.5px] font-medium',
+									transaction.type === 'EXPENSE' ? 'text-red-800' : 'text-green-800',
+									!areValuesVisible && 'blur-sm',
+								)}
+								>
+									{transaction.type === 'EXPENSE' ? '-' : '+'}
+									{formatCurrency(transaction.value)}
+								</span>
+							</div>
+						))
+						}
 
 					</div>
-
 				</>
 			)
 			}
