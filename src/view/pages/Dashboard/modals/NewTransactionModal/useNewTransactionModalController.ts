@@ -51,6 +51,12 @@ export function useNewTransactionModalController() {
 
 	const queryClient = useQueryClient();
 
+	function customInvalidateQueries(keys: string[]) {
+		keys.forEach(key => {
+			void queryClient.invalidateQueries({queryKey: [key]});
+		});
+	}
+
 	const handleSubmit = hookFormHandleSubmit(async data => {
 		try {
 			await mutateAsync({
@@ -60,8 +66,7 @@ export function useNewTransactionModalController() {
 				type: newTransactionType!,
 			});
 
-			// eslint-disable-next-line @typescript-eslint/no-floating-promises
-			queryClient.invalidateQueries({queryKey: ['transactions']});
+			customInvalidateQueries(['transactions', 'bankAccounts']);
 
 			toast.success(
 				newTransactionType === 'EXPENSE'

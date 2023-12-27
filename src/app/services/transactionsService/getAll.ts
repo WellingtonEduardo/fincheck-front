@@ -5,7 +5,7 @@ import {httpClient} from './../httpClient';
 
 type TransactionsResponse = Transaction[];
 
-type TransactionFilters = {
+export type TransactionFilters = {
 	month: number;
 	year: number;
 	bankAccountId?: string;
