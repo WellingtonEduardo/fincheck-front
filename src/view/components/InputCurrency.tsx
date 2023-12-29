@@ -9,13 +9,15 @@ type InputCurrencyProps = {
 };
 
 export function InputCurrency({error, value, onChange}: InputCurrencyProps) {
+	const formattedValue = typeof value === 'string' ? value.replace(/\./g, '').replace(/,/, '.') : value;
+
 	return (
 		<div>
 
 			<NumericFormat
 				thousandSeparator='.'
 				decimalSeparator=','
-				value={value}
+				value={formattedValue}
 				onChange={event => {
 					onChange?.(event.target.value);
 				}}
