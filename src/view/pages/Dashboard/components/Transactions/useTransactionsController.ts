@@ -18,11 +18,25 @@ export function useTransactionsController() {
 		void refetch();
 	}, [filters, refetch]);
 
-	function handleChangeMonth(month: number) {
-		setFilters(prevState => ({
-			...prevState,
-			month,
-		}));
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	function handleChangeFiltersModal<TFilter extends keyof TransactionFilters>(filter: TFilter) {
+		return (value: TransactionFilters[TFilter]) => {
+			if (value === filters[filter]) {
+				return null;
+			}
+
+			setFilters(prevState => ({
+				...prevState,
+				[filter]: value,
+
+			}));
+		};
+	}
+
+	function handleApplyFilters(filters: {bankAccountId: string | undefined; year: number}) {
+		handleChangeFiltersModal('bankAccountId')(filters.bankAccountId);
+		handleChangeFiltersModal('year')(filters.year);
+		handleCloseFiltersModal();
 	}
 
 	function handleOpenFiltersModal() {
@@ -41,8 +55,8 @@ export function useTransactionsController() {
 		isFiltersModalOpen,
 		handleOpenFiltersModal,
 		handleCloseFiltersModal,
-		handleChangeMonth,
+		handleChangeFiltersModal,
 		filters,
-
+		handleApplyFilters,
 	};
 }
