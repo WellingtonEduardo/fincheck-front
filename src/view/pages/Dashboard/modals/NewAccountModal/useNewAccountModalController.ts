@@ -48,8 +48,7 @@ export function useNewAccountModalController() {
 				initialBalance: currencyStringToNumber(data.initialBalance),
 			});
 
-			// eslint-disable-next-line @typescript-eslint/no-floating-promises
-			queryClient.invalidateQueries({queryKey: ['bankAccounts']});
+			void queryClient.invalidateQueries({queryKey: ['bankAccounts']});
 
 			toast.success('Conta foi cadastrada com sucesso');
 			closeNewAccountModal();

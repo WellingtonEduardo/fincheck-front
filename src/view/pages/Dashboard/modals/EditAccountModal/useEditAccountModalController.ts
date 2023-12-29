@@ -96,8 +96,8 @@ export function useEditAccountModalController() {
 	async function handleDeleteAccount() {
 		try {
 			await removeAccount(accountBeingEdited!.id);
-			// eslint-disable-next-line @typescript-eslint/no-floating-promises
-			queryClient.invalidateQueries({queryKey: ['bankAccounts']});
+
+			void queryClient.invalidateQueries({queryKey: ['bankAccounts']});
 
 			toast.success('A conta foi deletada com sucesso!');
 			closeEditAccountModal();
