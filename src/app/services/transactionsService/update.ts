@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import {sleep} from '../../utils/sleep';
+
 import {httpClient} from './../httpClient';
 
 export type UpdateTransactionParams = {
@@ -18,7 +18,7 @@ export async function update({
 	id,
 	...params
 }: UpdateTransactionParams) {
-	await sleep();
+
 	const {data} = await httpClient.put(`/transactions/${id}`, params);
 	return data;
 }

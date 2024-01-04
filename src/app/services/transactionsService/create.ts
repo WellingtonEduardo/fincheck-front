@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import {sleep} from '../../utils/sleep';
+
 import {httpClient} from './../httpClient';
 
 export type CreateTransactionParams = {
@@ -14,7 +14,7 @@ export type CreateTransactionParams = {
 };
 
 export async function create(params: CreateTransactionParams) {
-	await sleep();
+
 	const {data} = await httpClient.post('/transactions', params);
 	return data;
 }
